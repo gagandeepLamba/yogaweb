@@ -1,9 +1,11 @@
 import { ArrowRight, PlayCircle } from "lucide-react";
+import Image from "next/image";
 import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
 import { BlobField } from "@/components/ui/blob-field";
 import { StyleIcon } from "@/components/ui/style-icon";
 import { siteConfig } from "@/lib/site-config";
+import { homeHeroImage } from "@/lib/images";
 import { yogaStyles } from "@/data/yoga-styles";
 
 export function Hero() {
@@ -57,15 +59,33 @@ export function Hero() {
         </div>
 
         <div className="relative">
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
+          <div className="relative min-h-[520px] overflow-hidden rounded-3xl bg-sage-100 shadow-2xl shadow-sage-900/15">
+            <Image
+              src={homeHeroImage.src}
+              alt={homeHeroImage.alt}
+              fill
+              priority
+              sizes="(min-width: 1024px) 50vw, 100vw"
+              className="object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-charcoal/55 via-charcoal/10 to-transparent" />
+            <div className="absolute bottom-0 left-0 right-0 p-6 text-cream sm:p-8">
+              <p className="font-display text-2xl font-medium">Daily practice, calm guidance</p>
+              <p className="mt-2 max-w-sm text-sm leading-relaxed text-cream/85">
+                Studio, online, private, and group classes shaped around how you want to move.
+              </p>
+            </div>
+          </div>
+
+          <div className="absolute -bottom-8 left-4 right-4 grid grid-cols-2 gap-3 sm:left-8 sm:right-8 sm:grid-cols-3">
             {previewStyles.map((style, index) => (
               <div
                 key={style.slug}
-                className="flex flex-col items-center gap-3 rounded-3xl border border-charcoal/8 bg-white/70 p-5 text-center shadow-sm shadow-charcoal/5"
+                className="flex flex-col items-center gap-2 rounded-2xl border border-white/70 bg-white/90 p-4 text-center shadow-lg shadow-charcoal/10 backdrop-blur"
                 style={{ marginTop: index % 2 === 0 ? 0 : "1.5rem" }}
               >
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-sage-100 text-sage-700">
-                  <StyleIcon icon={style.icon} className="h-6 w-6" />
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-sage-100 text-sage-700">
+                  <StyleIcon icon={style.icon} className="h-5 w-5" />
                 </div>
                 <p className="text-sm font-semibold text-charcoal">{style.name}</p>
               </div>

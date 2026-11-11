@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowRight, CheckCircle2, ChevronRight, Info } from "lucide-react";
@@ -10,6 +11,7 @@ import { BlobField } from "@/components/ui/blob-field";
 import { StyleIcon } from "@/components/ui/style-icon";
 import { YogaStyleCard } from "@/components/yoga/yoga-style-card";
 import { siteConfig } from "@/lib/site-config";
+import { yogaStyleImages } from "@/lib/images";
 import { jsonLdScriptProps } from "@/lib/seo";
 
 type Props = {
@@ -42,6 +44,7 @@ export default async function YogaStyleDetailPage({ params }: Props) {
 
   if (!style) notFound();
 
+  const image = yogaStyleImages[style.slug];
   const related = style.relatedSlugs
     .map((relatedSlug) => getYogaStyleBySlug(relatedSlug))
     .filter((s): s is NonNullable<typeof s> => Boolean(s));
@@ -75,27 +78,44 @@ export default async function YogaStyleDetailPage({ params }: Props) {
             <span className="text-charcoal">{style.name}</span>
           </nav>
 
-          <div className="mt-6 flex flex-col gap-6 sm:flex-row sm:items-center">
-            <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-3xl bg-sage-600 text-cream">
-              <StyleIcon icon={style.icon} className="h-10 w-10" />
-            </div>
+          <div className="mt-8 grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(360px,0.78fr)] lg:items-center">
             <div>
-              <h1 className="font-display text-4xl font-medium text-balance text-charcoal sm:text-5xl">
-                {style.name}
-              </h1>
-              <p className="mt-2 text-lg font-medium text-terracotta-600">{style.tagline}</p>
+              <div className="flex flex-col gap-6 sm:flex-row sm:items-center">
+                <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-3xl bg-sage-600 text-cream">
+                  <StyleIcon icon={style.icon} className="h-10 w-10" />
+                </div>
+                <div>
+                  <h1 className="font-display text-4xl font-medium text-balance text-charcoal sm:text-5xl">
+                    {style.name}
+                  </h1>
+                  <p className="mt-2 text-lg font-medium text-terracotta-600">{style.tagline}</p>
+                </div>
+              </div>
+
+              <div className="mt-6 flex flex-wrap gap-2">
+                <Badge variant="sage">{style.level}</Badge>
+                <Badge variant="terracotta">{style.duration}</Badge>
+                <Badge variant="gold">{style.intensity} Intensity</Badge>
+              </div>
+
+              <p className="mt-6 max-w-3xl text-lg leading-relaxed text-charcoal-soft">
+                {style.shortDescription}
+              </p>
             </div>
-          </div>
 
-          <div className="mt-6 flex flex-wrap gap-2">
-            <Badge variant="sage">{style.level}</Badge>
-            <Badge variant="terracotta">{style.duration}</Badge>
-            <Badge variant="gold">{style.intensity} Intensity</Badge>
+            {image ? (
+              <div className="relative min-h-[360px] overflow-hidden rounded-3xl bg-sage-100 shadow-xl shadow-sage-900/10">
+                <Image
+                  src={image.src}
+                  alt={image.alt}
+                  fill
+                  priority
+                  sizes="(min-width: 1024px) 40vw, 100vw"
+                  className="object-cover"
+                />
+              </div>
+            ) : null}
           </div>
-
-          <p className="mt-6 max-w-3xl text-lg leading-relaxed text-charcoal-soft">
-            {style.shortDescription}
-          </p>
         </Container>
       </section>
 
