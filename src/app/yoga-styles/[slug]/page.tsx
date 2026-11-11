@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
+import { PageHero } from "@/components/ui/page-hero";
+import { DetailIntro } from "@/components/ui/detail-intro";
 import { notFound } from "next/navigation";
-import { ArrowRight, CheckCircle2, ChevronRight, Info } from "lucide-react";
+import { ArrowRight, CheckCircle2, Info } from "lucide-react";
 import { yogaStyles, getYogaStyleBySlug } from "@/data/yoga-styles";
 import { Container } from "@/components/ui/container";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { BlobField } from "@/components/ui/blob-field";
 import { StyleIcon } from "@/components/ui/style-icon";
 import { YogaStyleCard } from "@/components/yoga/yoga-style-card";
 import { siteConfig } from "@/lib/site-config";
@@ -67,57 +67,14 @@ export default async function YogaStyleDetailPage({ params }: Props) {
     <>
       <script {...jsonLdScriptProps(jsonLd)} />
 
-      <section className="relative overflow-hidden pb-16 pt-10 sm:pt-14">
-        <BlobField />
-        <Container>
-          <nav className="flex items-center gap-1.5 text-sm text-charcoal-faint" aria-label="Breadcrumb">
-            <Link href="/" className="hover:text-sage-700">Home</Link>
-            <ChevronRight className="h-3.5 w-3.5" />
-            <Link href="/yoga-styles" className="hover:text-sage-700">Yoga Styles</Link>
-            <ChevronRight className="h-3.5 w-3.5" />
-            <span className="text-charcoal">{style.name}</span>
-          </nav>
-
-          <div className="mt-8 grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(360px,0.78fr)] lg:items-center">
-            <div>
-              <div className="flex flex-col gap-6 sm:flex-row sm:items-center">
-                <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-3xl bg-sage-600 text-cream">
-                  <StyleIcon icon={style.icon} className="h-10 w-10" />
-                </div>
-                <div>
-                  <h1 className="font-display text-4xl font-medium text-balance text-charcoal sm:text-5xl">
-                    {style.name}
-                  </h1>
-                  <p className="mt-2 text-lg font-medium text-terracotta-600">{style.tagline}</p>
-                </div>
-              </div>
-
-              <div className="mt-6 flex flex-wrap gap-2">
-                <Badge variant="sage">{style.level}</Badge>
-                <Badge variant="terracotta">{style.duration}</Badge>
-                <Badge variant="gold">{style.intensity} Intensity</Badge>
-              </div>
-
-              <p className="mt-6 max-w-3xl text-lg leading-relaxed text-charcoal-soft">
-                {style.shortDescription}
-              </p>
-            </div>
-
-            {image ? (
-              <div className="relative min-h-[360px] overflow-hidden rounded-3xl bg-sage-100 shadow-xl shadow-sage-900/10">
-                <Image
-                  src={image.src}
-                  alt={image.alt}
-                  fill
-                  priority
-                  sizes="(min-width: 1024px) 40vw, 100vw"
-                  className="object-cover"
-                />
-              </div>
-            ) : null}
-          </div>
-        </Container>
-      </section>
+      <PageHero title={style.name} crumbs={[{ label: "Yoga Styles", href: "/yoga-styles" }]} />
+      <DetailIntro
+        title={style.name}
+        highlights={[style.tagline, `${style.level} · ${style.duration} · ${style.intensity} intensity`]}
+        paragraphs={[style.shortDescription]}
+        image={image}
+        ctaMessage={`Hi! I'd like to try ${style.name}.`}
+      />
 
       <section className="pb-20 sm:pb-28">
         <Container className="grid grid-cols-1 gap-12 lg:grid-cols-3">

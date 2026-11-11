@@ -1,13 +1,16 @@
 import type { Metadata } from "next";
 import { Hero } from "@/components/home/hero";
-import { FeaturedStyles } from "@/components/home/featured-styles";
-import { WhyChooseUs } from "@/components/home/why-choose-us";
-import { ServicesPreview } from "@/components/home/services-preview";
-import { PricingPreview } from "@/components/home/pricing-preview";
-import { TestimonialsPreview } from "@/components/home/testimonials-preview";
-import { BlogPreview } from "@/components/home/blog-preview";
-import { FaqTeaser } from "@/components/home/faq-teaser";
-import { CtaBanner } from "@/components/home/cta-banner";
+import { Specialities } from "@/components/home/specialities";
+import { AboutIntro } from "@/components/home/about-intro";
+import { Mission } from "@/components/home/mission";
+import { JoinBanner } from "@/components/home/join-banner";
+import { Founder } from "@/components/home/founder";
+import { Programs } from "@/components/home/programs";
+import { Community } from "@/components/home/community";
+import { Gallery } from "@/components/home/gallery";
+import { HelpSection } from "@/components/home/help-section";
+import { HomeContact } from "@/components/home/home-contact";
+import { TestimonialsSlider } from "@/components/home/testimonials-slider";
 import { siteConfig } from "@/lib/site-config";
 
 export const metadata: Metadata = {
@@ -20,14 +23,17 @@ export default function HomePage() {
   return (
     <>
       <Hero />
-      <FeaturedStyles />
-      <WhyChooseUs />
-      <ServicesPreview />
-      <PricingPreview />
-      <TestimonialsPreview />
-      <BlogPreview />
-      <FaqTeaser />
-      <CtaBanner />
+      <Specialities />
+      <AboutIntro />
+      <Mission />
+      <JoinBanner />
+      <Founder />
+      <Programs />
+      <Community />
+      <Gallery />
+      <HelpSection />
+      <HomeContact />
+      <TestimonialsSlider />
     </>
   );
 }

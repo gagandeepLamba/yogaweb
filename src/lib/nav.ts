@@ -1,32 +1,47 @@
-export const primaryNav = [
-  { label: "Yoga Styles", href: "/yoga-styles" },
-  { label: "Services", href: "/services" },
-  { label: "Pricing", href: "/pricing" },
-  { label: "Blog", href: "/blog" },
-  { label: "About", href: "/about" },
-  { label: "FAQ", href: "/faq" },
-] as const;
+import { services } from "@/data/services";
+
+export type NavChild = { label: string; href: string };
+export type NavItem = { label: string; href: string; children?: NavChild[] };
+
+export const primaryNav: NavItem[] = [
+  { label: "Home", href: "/" },
+  {
+    label: "About Us",
+    href: "/about",
+    children: [
+      { label: "About the Studio", href: "/about" },
+      { label: "Our Instructors", href: "/about#instructors" },
+      { label: "Testimonials", href: "/testimonials" },
+      { label: "Blog", href: "/blog" },
+      { label: "FAQ", href: "/faq" },
+    ],
+  },
+  {
+    label: "Services",
+    href: "/services",
+    children: [
+      ...services.map((s) => ({ label: s.title, href: `/services/${s.slug}` })),
+      { label: "Yoga Styles", href: "/yoga-styles" },
+      { label: "Pricing", href: "/pricing" },
+    ],
+  },
+  { label: "Workshop", href: "/workshop" },
+  { label: "We Help With", href: "/we-help" },
+  { label: "Contact Us", href: "/contact" },
+];
 
 export const footerNav = {
-  studio: [
+  links: [
     { label: "About Us", href: "/about" },
-    { label: "Testimonials", href: "/testimonials" },
+    { label: "Our Gallery", href: "/#gallery" },
+    { label: "Yoga Styles", href: "/yoga-styles" },
+    { label: "Workshop", href: "/workshop" },
+    { label: "Pricing", href: "/pricing" },
     { label: "Blog", href: "/blog" },
     { label: "FAQ", href: "/faq" },
-    { label: "Contact", href: "/contact" },
-  ],
-  yoga: [
-    { label: "All Yoga Styles", href: "/yoga-styles" },
-    { label: "Hatha Yoga", href: "/yoga-styles/hatha-yoga" },
-    { label: "Vinyasa Flow", href: "/yoga-styles/vinyasa-flow-yoga" },
-    { label: "Yin Yoga", href: "/yoga-styles/yin-yoga" },
-    { label: "Prenatal Yoga", href: "/yoga-styles/prenatal-yoga" },
+    { label: "Contact Us", href: "/contact" },
   ],
   services: [
-    { label: "Private Sessions", href: "/services/private-yoga-sessions" },
-    { label: "Group Classes", href: "/services/group-classes" },
-    { label: "Online Classes", href: "/services/online-yoga-classes" },
-    { label: "Corporate Yoga", href: "/services/corporate-yoga" },
-    { label: "Retreats & Workshops", href: "/services/retreats-and-workshops" },
+    ...services.map((s) => ({ label: s.title, href: `/services/${s.slug}` })),
   ],
 };

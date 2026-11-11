@@ -1,52 +1,74 @@
 import Link from "next/link";
-import { Clock, Mail, MapPin, Phone } from "lucide-react";
+import { MapPin, Phone, Mail } from "lucide-react";
 import { siteConfig } from "@/lib/site-config";
 import { footerNav } from "@/lib/nav";
 import { Container } from "@/components/ui/container";
-import { StyleIcon } from "@/components/ui/style-icon";
 import { SocialIcon } from "@/components/ui/social-icon";
+import { FlowerArt } from "@/components/ui/decor";
+
+function FooterHeading({ children }: { children: React.ReactNode }) {
+  return (
+    <>
+      <h3 className="font-display text-[22px] text-white">{children}</h3>
+      <span className="mt-3 block h-[2px] w-10 bg-terracotta-200" />
+    </>
+  );
+}
+
+function ContactRow({ icon: Icon, title, children }: { icon: typeof MapPin; title: string; children: React.ReactNode }) {
+  return (
+    <li className="flex items-start gap-3">
+      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-sage-600 text-white">
+        <Icon className="h-4.5 w-4.5" />
+      </span>
+      <span className="text-[15px] leading-snug text-white/90">
+        <span className="block font-medium text-white">{title}</span>
+        {children}
+      </span>
+    </li>
+  );
+}
 
 export function SiteFooter() {
   const year = new Date().getFullYear();
+  const { address } = siteConfig.contact;
 
   return (
-    <footer className="border-t border-charcoal/8 bg-cream-deep">
-      <Container className="grid grid-cols-1 gap-10 py-14 sm:grid-cols-2 lg:grid-cols-5">
-        <div className="sm:col-span-2 lg:col-span-2">
-          <Link href="/" className="flex items-center gap-2 font-display text-xl font-semibold text-charcoal">
-            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-sage-600 text-cream">
-              <StyleIcon icon="lotus" className="h-5 w-5" />
-            </span>
-            {siteConfig.name}
-          </Link>
-          <p className="mt-4 max-w-sm text-sm leading-relaxed text-charcoal-soft">
-            {siteConfig.description}
+    <footer className="relative mt-auto overflow-hidden bg-[#221d1a] text-white">
+      <FlowerArt className="pointer-events-none absolute -right-10 bottom-0 h-72 w-72 text-white/[0.06]" />
+
+      <Container className="relative grid grid-cols-1 gap-10 py-14 sm:grid-cols-2 lg:grid-cols-[1.3fr_0.8fr_1.1fr_1.3fr]">
+        <div>
+          <FooterHeading>{siteConfig.shortName}</FooterHeading>
+          <p className="mt-5 max-w-xs text-[15px] leading-relaxed text-white/90">
+            At {siteConfig.name}, we believe in creating a nurturing space where individuals can reconnect with their
+            inner selves, build strength, and find balance in body and mind.
           </p>
-          <div className="mt-5 flex gap-3">
-            <a
-              href={siteConfig.social.instagram}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Instagram"
-              className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-charcoal-soft transition-colors hover:bg-sage-600 hover:text-cream"
-            >
-              <SocialIcon network="instagram" />
-            </a>
+          <div className="mt-5 flex gap-2">
             <a
               href={siteConfig.social.facebook}
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Facebook"
-              className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-charcoal-soft transition-colors hover:bg-sage-600 hover:text-cream"
+              className="flex h-10 w-10 items-center justify-center rounded-[3px] bg-sage-600 text-white transition-colors hover:bg-sage-500"
             >
               <SocialIcon network="facebook" />
+            </a>
+            <a
+              href={siteConfig.social.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+              className="flex h-10 w-10 items-center justify-center rounded-[3px] bg-sage-600 text-white transition-colors hover:bg-sage-500"
+            >
+              <SocialIcon network="instagram" />
             </a>
             <a
               href={siteConfig.social.youtube}
               target="_blank"
               rel="noopener noreferrer"
               aria-label="YouTube"
-              className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-charcoal-soft transition-colors hover:bg-sage-600 hover:text-cream"
+              className="flex h-10 w-10 items-center justify-center rounded-[3px] bg-sage-600 text-white transition-colors hover:bg-sage-500"
             >
               <SocialIcon network="youtube" />
             </a>
@@ -54,11 +76,11 @@ export function SiteFooter() {
         </div>
 
         <div>
-          <h3 className="font-display text-sm font-semibold uppercase tracking-wider text-charcoal">Studio</h3>
-          <ul className="mt-4 space-y-2.5">
-            {footerNav.studio.map((item) => (
-              <li key={item.href}>
-                <Link href={item.href} className="text-sm text-charcoal-soft transition-colors hover:text-sage-700">
+          <FooterHeading>Useful Links</FooterHeading>
+          <ul className="mt-5 space-y-2.5">
+            {footerNav.links.map((item) => (
+              <li key={item.label}>
+                <Link href={item.href} className="font-eyebrow text-[14px] text-white/85 transition-colors hover:text-terracotta-200">
                   {item.label}
                 </Link>
               </li>
@@ -67,11 +89,11 @@ export function SiteFooter() {
         </div>
 
         <div>
-          <h3 className="font-display text-sm font-semibold uppercase tracking-wider text-charcoal">Popular Styles</h3>
-          <ul className="mt-4 space-y-2.5">
-            {footerNav.yoga.map((item) => (
+          <FooterHeading>Our Services</FooterHeading>
+          <ul className="mt-5 space-y-2.5">
+            {footerNav.services.map((item) => (
               <li key={item.href}>
-                <Link href={item.href} className="text-sm text-charcoal-soft transition-colors hover:text-sage-700">
+                <Link href={item.href} className="font-eyebrow text-[14px] text-white/85 transition-colors hover:text-terracotta-200">
                   {item.label}
                 </Link>
               </li>
@@ -80,48 +102,27 @@ export function SiteFooter() {
         </div>
 
         <div>
-          <h3 className="font-display text-sm font-semibold uppercase tracking-wider text-charcoal">Get in Touch</h3>
-          <ul className="mt-4 space-y-3 text-sm text-charcoal-soft">
-            <li className="flex items-start gap-2">
-              <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-sage-600" />
-              <span>
-                {siteConfig.contact.address.line1}, {siteConfig.contact.address.city},{" "}
-                {siteConfig.contact.address.region} {siteConfig.contact.address.postalCode}
-              </span>
-            </li>
-            <li className="flex items-center gap-2">
-              <Phone className="h-4 w-4 shrink-0 text-sage-600" />
-              <a href={siteConfig.contact.phoneHref} className="hover:text-sage-700">
+          <FooterHeading>Contact</FooterHeading>
+          <ul className="mt-5 space-y-5">
+            <ContactRow icon={MapPin} title="Our Location">
+              {address.line1}, {address.line2}, {address.city}, {address.region} {address.postalCode}
+            </ContactRow>
+            <ContactRow icon={Phone} title="Looking For Consultation">
+              <a href={siteConfig.contact.phoneHref} className="hover:text-terracotta-200">
                 {siteConfig.contact.phoneDisplay}
               </a>
-            </li>
-            <li className="flex items-center gap-2">
-              <Mail className="h-4 w-4 shrink-0 text-sage-600" />
-              <a href={`mailto:${siteConfig.contact.email}`} className="hover:text-sage-700">
+            </ContactRow>
+            <ContactRow icon={Mail} title="Email Us">
+              <a href={`mailto:${siteConfig.contact.email}`} className="break-all hover:text-terracotta-200">
                 {siteConfig.contact.email}
               </a>
-            </li>
-            <li className="flex items-start gap-2">
-              <Clock className="mt-0.5 h-4 w-4 shrink-0 text-sage-600" />
-              <span>
-                {siteConfig.contact.hours.map((h) => (
-                  <span key={h.days} className="block">
-                    {h.days}: {h.time}
-                  </span>
-                ))}
-              </span>
-            </li>
+            </ContactRow>
           </ul>
         </div>
       </Container>
 
-      <div className="border-t border-charcoal/8">
-        <Container className="flex flex-col items-center justify-between gap-3 py-6 text-xs text-charcoal-faint sm:flex-row">
-          <p>
-            © {year} {siteConfig.name}. All rights reserved.
-          </p>
-          <p>Built with care for a calmer, stronger you.</p>
-        </Container>
+      <div className="relative bg-terracotta-200 py-3 text-center text-[15px] text-charcoal">
+        © {year} {siteConfig.name}. All rights reserved
       </div>
     </footer>
   );

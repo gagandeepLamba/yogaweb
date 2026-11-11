@@ -1,15 +1,14 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
+import { PageHero } from "@/components/ui/page-hero";
+import { DetailIntro } from "@/components/ui/detail-intro";
 import { notFound } from "next/navigation";
-import { ArrowRight, Check, ChevronRight } from "lucide-react";
+import { ArrowRight, Check } from "lucide-react";
 import { services, getServiceBySlug } from "@/data/services";
 import { getYogaStyleBySlug } from "@/data/yoga-styles";
 import { Container } from "@/components/ui/container";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { BlobField } from "@/components/ui/blob-field";
-import { StyleIcon } from "@/components/ui/style-icon";
 import { ServiceCard } from "@/components/services/service-card";
 import { siteConfig } from "@/lib/site-config";
 import { serviceImages } from "@/lib/images";
@@ -63,51 +62,14 @@ export default async function ServiceDetailPage({ params }: Props) {
     <>
       <script {...jsonLdScriptProps(jsonLd)} />
 
-      <section className="relative overflow-hidden pb-16 pt-10 sm:pt-14">
-        <BlobField />
-        <Container>
-          <nav className="flex items-center gap-1.5 text-sm text-charcoal-faint" aria-label="Breadcrumb">
-            <Link href="/" className="hover:text-sage-700">Home</Link>
-            <ChevronRight className="h-3.5 w-3.5" />
-            <Link href="/services" className="hover:text-sage-700">Services</Link>
-            <ChevronRight className="h-3.5 w-3.5" />
-            <span className="text-charcoal">{service.title}</span>
-          </nav>
-
-          <div className="mt-8 grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(360px,0.78fr)] lg:items-center">
-            <div>
-              <div className="flex flex-col gap-6 sm:flex-row sm:items-center">
-                <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-3xl bg-terracotta-500 text-cream">
-                  <StyleIcon icon={service.icon} className="h-10 w-10" />
-                </div>
-                <div>
-                  <h1 className="font-display text-4xl font-medium text-balance text-charcoal sm:text-5xl">
-                    {service.title}
-                  </h1>
-                  <p className="mt-2 text-lg font-medium text-sage-700">{service.tagline}</p>
-                </div>
-              </div>
-
-              <Badge variant="cream" className="mt-6">{service.format}</Badge>
-
-              <p className="mt-6 max-w-3xl text-lg leading-relaxed text-charcoal-soft">{service.summary}</p>
-            </div>
-
-            {image ? (
-              <div className="relative min-h-[360px] overflow-hidden rounded-3xl bg-terracotta-100 shadow-xl shadow-terracotta-900/10">
-                <Image
-                  src={image.src}
-                  alt={image.alt}
-                  fill
-                  priority
-                  sizes="(min-width: 1024px) 40vw, 100vw"
-                  className="object-cover"
-                />
-              </div>
-            ) : null}
-          </div>
-        </Container>
-      </section>
+      <PageHero title={service.title} crumbs={[{ label: "Services", href: "/services" }]} />
+      <DetailIntro
+        title={service.title}
+        highlights={[service.tagline, service.format]}
+        paragraphs={[service.summary]}
+        image={image}
+        ctaMessage={`Hi! I'd like to learn more about ${service.title}.`}
+      />
 
       <section className="pb-20 sm:pb-28">
         <Container className="grid grid-cols-1 gap-12 lg:grid-cols-3">
