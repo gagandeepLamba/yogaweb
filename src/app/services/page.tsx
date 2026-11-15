@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { PageHero } from "@/components/ui/page-hero";
-import { Specialities } from "@/components/home/specialities";
+import { Container } from "@/components/ui/container";
+import { SectionHeading } from "@/components/ui/section-heading";
+import { ServiceCard } from "@/components/services/service-card";
 import { JoinBanner } from "@/components/home/join-banner";
 import { services } from "@/data/services";
 import { siteConfig } from "@/lib/site-config";
@@ -31,7 +33,22 @@ export default function ServicesPage() {
     <>
       <script {...jsonLdScriptProps(jsonLd)} />
       <PageHero title="Services" />
-      <Specialities all />
+
+      <section className="py-16 sm:py-24">
+        <Container>
+          <SectionHeading
+            eyebrow="Practise your way"
+            title="Private, Group, Online or Company-wide"
+            description="However you want to practise, there is a format built for it — each with flexible daily, weekly and monthly pricing."
+          />
+          <div className="mt-12 grid grid-cols-1 gap-7 sm:grid-cols-2 lg:grid-cols-3">
+            {services.map((service) => (
+              <ServiceCard key={service.slug} service={service} />
+            ))}
+          </div>
+        </Container>
+      </section>
+
       <JoinBanner />
     </>
   );

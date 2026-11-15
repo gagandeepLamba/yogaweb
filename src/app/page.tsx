@@ -1,16 +1,24 @@
 import type { Metadata } from "next";
 import { Hero } from "@/components/home/hero";
-import { Specialities } from "@/components/home/specialities";
+import { QuickLinks } from "@/components/home/quick-links";
 import { AboutIntro } from "@/components/home/about-intro";
-import { Mission } from "@/components/home/mission";
+import { WhyChoose } from "@/components/home/why-choose";
+import { StudentStories } from "@/components/home/student-stories";
+import { Timeline } from "@/components/home/timeline";
+import { Courses } from "@/components/home/courses";
+import { Credentials } from "@/components/home/credentials";
+import { WhyPractice } from "@/components/home/why-practice";
+import { Workshops } from "@/components/home/workshops";
+import { StylesCarousel } from "@/components/home/styles-carousel";
+import { ClassStructure } from "@/components/home/class-structure";
+import { ArchCards } from "@/components/home/arch-cards";
+import { StudioLife } from "@/components/home/studio-life";
+import { Team } from "@/components/home/team";
 import { JoinBanner } from "@/components/home/join-banner";
-import { Founder } from "@/components/home/founder";
-import { Programs } from "@/components/home/programs";
-import { Community } from "@/components/home/community";
 import { Gallery } from "@/components/home/gallery";
-import { HelpSection } from "@/components/home/help-section";
+import { Reviews } from "@/components/home/reviews";
+import { FaqSection } from "@/components/home/faq-section";
 import { HomeContact } from "@/components/home/home-contact";
-import { TestimonialsSlider } from "@/components/home/testimonials-slider";
 import { siteConfig } from "@/lib/site-config";
 
 export const metadata: Metadata = {
@@ -23,17 +31,25 @@ export default function HomePage() {
   return (
     <>
       <Hero />
-      <Specialities />
+      <QuickLinks />
       <AboutIntro />
-      <Mission />
+      <WhyChoose />
+      <StudentStories />
+      <Timeline />
+      <Courses />
+      <Credentials />
+      <WhyPractice />
+      <Workshops />
+      <StylesCarousel />
+      <ClassStructure />
+      <ArchCards />
+      <StudioLife />
+      <Team />
       <JoinBanner />
-      <Founder />
-      <Programs />
-      <Community />
       <Gallery />
-      <HelpSection />
+      <Reviews />
+      <FaqSection />
       <HomeContact />
-      <TestimonialsSlider />
     </>
   );
 }

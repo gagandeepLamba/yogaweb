@@ -2,39 +2,39 @@
 
 :root {
   --color-cream: #ffffff;
-  --color-cream-deep: #f9f6ee;
-  --color-cream-deeper: #f3eadf;
+  --color-cream-deep: #f5f2ea;
+  --color-cream-deeper: #ebe6d8;
 
-  --color-sage-50: #fbf5f1;
-  --color-sage-100: #f3e4da;
-  --color-sage-200: #e6c8b5;
-  --color-sage-300: #d3a487;
-  --color-sage-400: #bc7f5a;
-  --color-sage-500: #a96b45;
-  --color-sage-600: #9c5d3b;
-  --color-sage-700: #7f4a2e;
-  --color-sage-800: #613922;
-  --color-sage-900: #422616;
+  --color-sage-50: #f3f6f8;
+  --color-sage-100: #e3eaef;
+  --color-sage-200: #c5d3dd;
+  --color-sage-300: #96adbd;
+  --color-sage-400: #5f8099;
+  --color-sage-500: #3b5d76;
+  --color-sage-600: #1c3242;
+  --color-sage-700: #162836;
+  --color-sage-800: #101e29;
+  --color-sage-900: #0a141c;
 
-  --color-terracotta-50: #fdf6ee;
-  --color-terracotta-100: #f7e6d3;
-  --color-terracotta-200: #ecd0b1;
-  --color-terracotta-300: #deaa78;
-  --color-terracotta-400: #c98a52;
-  --color-terracotta-500: #b0693a;
-  --color-terracotta-600: #8f5230;
-  --color-terracotta-700: #734128;
-  --color-terracotta-800: #58321f;
-  --color-terracotta-900: #3d2315;
+  --color-terracotta-50: #fff9ea;
+  --color-terracotta-100: #fdefc9;
+  --color-terracotta-200: #f8dc94;
+  --color-terracotta-300: #f4c75a;
+  --color-terracotta-400: #efb02f;
+  --color-terracotta-500: #e39a1f;
+  --color-terracotta-600: #c47f14;
+  --color-terracotta-700: #9c6310;
+  --color-terracotta-800: #74490d;
+  --color-terracotta-900: #4d300a;
 
-  --color-gold-300: #e3d19a;
-  --color-gold-400: #d3b865;
-  --color-gold-500: #c9a94f;
+  --color-gold-300: #ead9a4;
+  --color-gold-400: #dcbd62;
+  --color-gold-500: #cfa73f;
   --color-gold-600: #a67c37;
 
-  --color-charcoal: #161311;
-  --color-charcoal-soft: #3b3632;
-  --color-charcoal-faint: #6d655d;
+  --color-charcoal: #152124;
+  --color-charcoal-soft: #3d4b4f;
+  --color-charcoal-faint: #6b787b;
 
   --background: var(--color-cream);
   --foreground: var(--color-charcoal);
@@ -79,15 +79,14 @@
   --color-charcoal-soft: var(--color-charcoal-soft);
   --color-charcoal-faint: var(--color-charcoal-faint);
 
-  /* The reference design uses small, ~10px corner radii instead of big pill shapes. */
-  --radius-xl: 0.5rem;
-  --radius-2xl: 0.625rem;
-  --radius-3xl: 0.75rem;
-  --radius-4xl: 1rem;
+  --radius-xl: 0.75rem;
+  --radius-2xl: 1rem;
+  --radius-3xl: 1.5rem;
+  --radius-4xl: 2rem;
 
-  --font-display: var(--font-marcellus);
-  --font-sans: var(--font-roboto);
-  --font-eyebrow: var(--font-sora);
+  --font-display: var(--font-bricolage);
+  --font-sans: var(--font-archivo);
+  --font-eyebrow: var(--font-archivo);
 
   --animate-fade-up: fade-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   --animate-float: float 6s ease-in-out infinite;

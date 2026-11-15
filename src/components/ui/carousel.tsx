@@ -11,10 +11,13 @@ export function Carousel({
   children,
   itemClassName = "basis-full md:basis-1/3",
   className,
+  light = false,
 }: {
   children: React.ReactNode;
   itemClassName?: string;
   className?: string;
+  /** Use light dots on dark backgrounds. */
+  light?: boolean;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const [pages, setPages] = useState(1);
@@ -64,8 +67,9 @@ export function Carousel({
               aria-label={`Go to page ${i + 1}`}
               onClick={() => go(i)}
               className={cn(
-                "h-2.5 w-2.5 rounded-full border border-charcoal/70 transition-colors",
-                i === page ? "bg-charcoal" : "bg-transparent"
+                "h-2.5 rounded-full border transition-all",
+                light ? "border-white/70" : "border-sage-600/70",
+                i === page ? (light ? "w-6 bg-white" : "w-6 bg-sage-600") : "w-2.5 bg-transparent"
               )}
             />
           ))}

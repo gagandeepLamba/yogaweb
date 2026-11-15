@@ -31,8 +31,7 @@ export default function WeHelpPage() {
 
       <section className="py-14 sm:py-20">
         <Container>
-          <h2 className="text-center font-display text-2xl text-charcoal sm:text-3xl">Common Goals</h2>
-          <span className="mx-auto mt-3 block h-[2px] w-14 bg-sage-600" />
+          <SectionHeading eyebrow="Common goals" title="What We Help With" />
           <ul className="mx-auto mt-10 grid max-w-5xl gap-x-10 gap-y-4 sm:grid-cols-2 lg:grid-cols-3">
             {commonGoals.map((goal) => (
               <ArrowItem key={goal}>{goal}</ArrowItem>
@@ -40,7 +39,7 @@ export default function WeHelpPage() {
           </ul>
 
           <div className="mt-16">
-            <SectionHeading title="Other Areas" className="[&_h2]:text-2xl sm:[&_h2]:text-3xl" />
+            <SectionHeading eyebrow="By area" title="Other Areas We Support" />
             <div className="mx-auto mt-10 grid max-w-5xl gap-x-10 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
               {goalAreas.map((area) => (
                 <div key={area.name}>
@@ -50,7 +49,7 @@ export default function WeHelpPage() {
                   <ul className="ml-9 mt-3 space-y-2 text-[15px] text-charcoal-soft">
                     {area.items.map((item) => (
                       <li key={item} className="flex items-center gap-3">
-                        <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-sage-600" />
+                        <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-terracotta-400" />
                         {item}
                       </li>
                     ))}

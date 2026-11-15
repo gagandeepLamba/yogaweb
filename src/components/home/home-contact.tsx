@@ -1,19 +1,21 @@
 "use client";
 
 import { useState } from "react";
-import { CheckCircle2, Loader2, Mail, MapPin, Phone } from "lucide-react";
+import { CheckCircle2, Loader2, Mail, MapPin, Phone, Send } from "lucide-react";
 import { Container } from "@/components/ui/container";
+import { SectionHeading } from "@/components/ui/section-heading";
 import { siteConfig } from "@/lib/site-config";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
+const label = "block text-[12px] font-semibold uppercase tracking-[0.12em] text-charcoal-faint";
 const field =
-  "w-full rounded-[3px] border-0 bg-white px-4 py-3 text-[15px] text-charcoal placeholder:text-charcoal-faint focus:outline-none focus:ring-2 focus:ring-terracotta-200";
+  "mt-1.5 w-full rounded-xl border border-charcoal/10 bg-white px-4 py-3 text-[15px] text-charcoal placeholder:text-charcoal-faint/70 focus:border-sage-600 focus:outline-none focus:ring-2 focus:ring-terracotta-300/50";
 
 export function HomeContact({
-  heading = "Book a free consultation",
-  subheading = "Tell us a little about your goals and we’ll be in touch.",
-  title = "Visit Our Location",
+  heading = "Do You Have Any Questions?",
+  subheading = "Tell us a little about your goals and we’ll get back to you within one business day.",
+  title = "Contact Shanti Yoga Studio",
   topic = "Home page enquiry",
   plain = false,
 }: {
@@ -55,84 +57,92 @@ export function HomeContact({
   }
 
   return (
-    <section id="contact" className={`scroll-mt-24 py-16 sm:py-20 ${plain ? "" : "bg-cream-deep"}`}>
-      <Container className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
-        <div className="rounded-xl bg-sage-600 p-6 sm:p-8">
-          <h3 className="font-display text-3xl text-white">{heading}</h3>
-          <span className="mt-3 block h-[2px] w-10 bg-terracotta-200" />
-          <p className="mt-3 text-[15px] text-white/85">{subheading}</p>
+    <section id="contact" className={`scroll-mt-24 py-16 sm:py-24 ${plain ? "" : "bg-white"}`}>
+      <Container>
+        <SectionHeading eyebrow="Get in touch" title={title} description="Questions about a class, pricing or a corporate program? Reach out — we're happy to help you plan your first visit." />
 
-          {status === "success" ? (
-            <div className="mt-6 flex flex-col items-center gap-2 rounded-[3px] bg-white p-8 text-center">
-              <CheckCircle2 className="h-9 w-9 text-sage-600" />
-              <p className="font-display text-xl text-charcoal">Message sent!</p>
-              <p className="text-sm text-charcoal-soft">Thanks for reaching out — we&rsquo;ll reply within one business day.</p>
-            </div>
-          ) : (
-            <form onSubmit={handleSubmit} className="mt-6 space-y-4" noValidate={false}>
-              <input type="hidden" name="topic" value={topic} />
-              <div className="hidden" aria-hidden="true">
-                <label>
-                  Company
-                  <input type="text" name="company" tabIndex={-1} autoComplete="off" />
+        <div className="mt-12 grid items-start gap-8 lg:grid-cols-[1.15fr_1fr]">
+          <div className="rounded-3xl bg-cream-deep p-6 sm:p-9">
+            {status === "success" ? (
+              <div className="flex flex-col items-center gap-2 py-10 text-center">
+                <CheckCircle2 className="h-10 w-10 text-sage-600" />
+                <p className="font-display text-2xl font-semibold text-sage-600">Message sent!</p>
+                <p className="text-[15px] text-charcoal-soft">Thanks for reaching out — we&rsquo;ll reply within one business day.</p>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <input type="hidden" name="topic" value={topic} />
+                <div className="hidden" aria-hidden="true">
+                  <label>
+                    Company
+                    <input type="text" name="company" tabIndex={-1} autoComplete="off" />
+                  </label>
+                </div>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <label className={label}>
+                    Your name
+                    <input className={field} name="name" placeholder="Full name" required minLength={2} />
+                  </label>
+                  <label className={label}>
+                    Your email
+                    <input className={field} type="email" name="email" placeholder="you@email.com" required />
+                  </label>
+                </div>
+                <label className={`${label} block`}>
+                  Phone (optional)
+                  <input className={field} type="tel" name="phone" placeholder="+1 555 000 0000" />
                 </label>
-              </div>
-              <div className="grid gap-4 sm:grid-cols-2">
-                <input className={field} name="name" placeholder="Your Name" required minLength={2} aria-label="Your name" />
-                <input className={field} type="email" name="email" placeholder="Your Email" required aria-label="Your email" />
-              </div>
-              <input className={field} type="tel" name="phone" placeholder="Your Phone" aria-label="Your phone" />
-              <textarea
-                className={`${field} min-h-[130px] resize-y`}
-                name="message"
-                placeholder="Your Message"
-                required
-                minLength={10}
-                aria-label="Your message"
-              />
-              {status === "error" ? (
-                <p role="alert" className="rounded-[3px] bg-white/90 px-3 py-2 text-sm text-red-700">
-                  {error}
-                </p>
-              ) : null}
-              <div className="text-right">
+                <label className={`${label} block`}>
+                  Your message
+                  <textarea
+                    className={`${field} min-h-[130px] resize-y`}
+                    name="message"
+                    placeholder="Tell us what you're looking for…"
+                    required
+                    minLength={10}
+                  />
+                </label>
+                {status === "error" ? (
+                  <p role="alert" className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">
+                    {error}
+                  </p>
+                ) : null}
                 <button
                   type="submit"
                   disabled={status === "submitting"}
-                  className="inline-flex items-center gap-2 rounded-[3px] bg-terracotta-200 px-6 py-3 font-display text-[15px] uppercase tracking-wide text-sage-900 transition-colors hover:bg-terracotta-300 disabled:opacity-60"
+                  className="inline-flex w-full items-center justify-center gap-2.5 rounded-full bg-sage-600 px-6 py-3.5 text-[15.5px] font-semibold text-white transition-colors hover:bg-sage-700 disabled:opacity-60 sm:w-auto"
                 >
-                  {status === "submitting" ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
-                  Get a Solution
+                  {status === "submitting" ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
+                  Submit Enquiry
                 </button>
-              </div>
-            </form>
-          )}
-        </div>
+              </form>
+            )}
+          </div>
 
-        <div>
-          <span className="block font-eyebrow text-[17px] text-sage-600">Contact Us</span>
-          <h2 className="mt-3 font-display text-3xl text-charcoal sm:text-4xl">{title}</h2>
-          <span className="mt-4 block h-[2px] w-14 bg-sage-600" />
+          <div>
+            <h3 className="font-display text-2xl font-semibold text-sage-600">{heading}</h3>
+            <p className="mt-3 text-[16px] leading-relaxed text-charcoal-soft">{subheading}</p>
 
-          <ul className="mt-8 space-y-6">
-            {[
-              { icon: MapPin, title: "Our Location", body: `${address.line1}, ${address.line2}, ${address.city}, ${address.region} ${address.postalCode}`, href: address.mapsHref },
-              { icon: Phone, title: "Looking For Consultation", body: phoneDisplay, href: phoneHref },
-              { icon: Mail, title: "Email Us", body: email, href: `mailto:${email}` },
-            ].map(({ icon: Icon, title, body, href }) => (
-              <li key={title} className="flex items-start gap-4">
-                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-sage-600 text-white">
-                  <Icon className="h-5 w-5" />
-                </span>
-                <span>
-                  <span className="block font-medium text-charcoal">{title}</span>
-                  <a href={href} className="text-[15px] text-charcoal-soft hover:text-sage-600">
-                    {body}
-                  </a>
-                </span>
-              </li>
-            ))}
-          </ul>
+            <ul className="mt-8 space-y-6">
+              {[
+                { icon: MapPin, title: "Find us", body: `${address.line1}, ${address.line2}, ${address.city}, ${address.region} ${address.postalCode}`, href: address.mapsHref },
+                { icon: Phone, title: "Call us", body: phoneDisplay, href: phoneHref },
+                { icon: Mail, title: "Mail us", body: email, href: `mailto:${email}` },
+              ].map(({ icon: Icon, title: t, body, href }) => (
+                <li key={t} className="flex items-start gap-4">
+                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-terracotta-400 text-sage-800">
+                    <Icon className="h-5 w-5" />
+                  </span>
+                  <span>
+                    <span className="block text-[11.5px] font-semibold uppercase tracking-[0.18em] text-charcoal-faint">{t}</span>
+                    <a href={href} className="mt-0.5 block break-words text-[16px] font-medium text-sage-600 hover:text-terracotta-600">
+                      {body}
+                    </a>
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </Container>
     </section>

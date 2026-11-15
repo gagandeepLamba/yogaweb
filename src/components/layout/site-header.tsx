@@ -13,8 +13,10 @@ import { LogoMark } from "@/components/layout/logo-mark";
 import { cn } from "@/lib/utils";
 
 function isActive(pathname: string, href: string) {
-  if (href === "/") return pathname === "/";
-  return pathname === href || pathname.startsWith(`${href}/`);
+  const path = href.split("#")[0] || "/";
+  if (href.includes("#")) return false;
+  if (path === "/") return pathname === "/";
+  return pathname === path || pathname.startsWith(`${path}/`);
 }
 
 export function SiteHeader() {
@@ -39,63 +41,63 @@ export function SiteHeader() {
     };
   }, [mobileOpen]);
 
-  const bookHref = siteConfig.contact.whatsappHref("Hi! I'd like to book a session.");
+  const social = [
+    { network: "facebook", href: siteConfig.social.facebook, label: "Facebook" },
+    { network: "instagram", href: siteConfig.social.instagram, label: "Instagram" },
+    { network: "youtube", href: siteConfig.social.youtube, label: "YouTube" },
+  ] as const;
 
   return (
     <>
       {/* Top contact bar */}
-      <div className="bg-sage-600 text-white">
-        <Container className="flex items-center justify-between gap-4 py-1.5 text-[14px]">
-          <div className="flex items-center gap-2">
-            <a
-              href={siteConfig.social.facebook}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Facebook"
-              className="flex h-6 w-6 items-center justify-center rounded-full bg-white/25 transition-colors hover:bg-white/40"
-            >
-              <SocialIcon network="facebook" className="h-3 w-3" />
-            </a>
-            <a
-              href={siteConfig.social.instagram}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Instagram"
-              className="flex h-6 w-6 items-center justify-center rounded-full bg-white/25 transition-colors hover:bg-white/40"
-            >
-              <SocialIcon network="instagram" className="h-3 w-3" />
-            </a>
-          </div>
-          <div className="flex items-center gap-4 font-display">
-            <a href={siteConfig.contact.phoneHref} className="flex items-center gap-1.5 hover:underline">
-              <Phone className="h-3.5 w-3.5" />
-              <span className="hidden sm:inline">{siteConfig.contact.phoneDisplay}</span>
-              <span className="sm:hidden">Call</span>
-            </a>
-            <span className="hidden h-4 w-px bg-white/40 sm:block" />
-            <a href={`mailto:${siteConfig.contact.email}`} className="hidden items-center gap-1.5 hover:underline sm:flex">
+      <div className="bg-sage-700 text-white">
+        <Container className="flex items-center justify-between gap-4 py-2 text-[13.5px]">
+          <div className="flex items-center gap-5">
+            <a href={`mailto:${siteConfig.contact.email}`} className="hidden items-center gap-2 hover:text-terracotta-300 sm:flex">
               <Mail className="h-3.5 w-3.5" />
               {siteConfig.contact.email}
             </a>
+            <a href={siteConfig.contact.phoneHref} className="flex items-center gap-2 whitespace-nowrap hover:text-terracotta-300">
+              <Phone className="h-3.5 w-3.5" />
+              {siteConfig.contact.phoneDisplay}
+            </a>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="mr-2 hidden rounded-full border border-terracotta-300/50 bg-terracotta-300/10 px-3 py-0.5 text-[11px] font-semibold text-terracotta-200 md:inline">
+              Free trial class for new students
+            </span>
+            {social.map(({ network, href, label }) => (
+              <a
+                key={network}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={label}
+                className="flex h-7 w-7 items-center justify-center rounded-full text-white/90 transition-colors hover:bg-white/15"
+              >
+                <SocialIcon network={network} className="h-3.5 w-3.5" />
+              </a>
+            ))}
           </div>
         </Container>
       </div>
 
-      <header className="sticky top-0 z-50 border-b border-charcoal/8 bg-white shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
-        <Container className="flex h-[76px] items-center justify-between">
+      <header className="sticky top-0 z-50 border-b border-charcoal/5 bg-white shadow-[0_2px_14px_rgba(21,33,36,0.05)]">
+        <Container className="flex h-[78px] items-center justify-between gap-4">
           <LogoMark />
 
-          <nav className="hidden items-center gap-1 lg:flex" aria-label="Primary">
+          <nav className="hidden items-center xl:flex" aria-label="Primary">
             {primaryNav.map((item) => {
               const active = isActive(pathname, item.href);
               const linkClass = cn(
-                "relative flex items-center gap-1 px-3 py-2 font-eyebrow text-[15px] text-charcoal transition-colors hover:text-sage-600",
-                active && "text-sage-600 after:absolute after:inset-x-3 after:bottom-0.5 after:h-[2px] after:bg-sage-600"
+                "relative flex items-center gap-1 px-3 py-2 text-[15px] font-medium text-sage-600 transition-colors hover:text-terracotta-600",
+                active &&
+                  "after:absolute after:inset-x-3 after:-bottom-1.5 after:h-[2px] after:rounded-full after:bg-terracotta-400"
               );
 
               if (!item.children) {
                 return (
-                  <Link key={item.href} href={item.href} className={linkClass}>
+                  <Link key={item.label} href={item.href} className={linkClass}>
                     {item.label}
                   </Link>
                 );
@@ -103,7 +105,7 @@ export function SiteHeader() {
 
               return (
                 <div
-                  key={item.href}
+                  key={item.label}
                   className="relative"
                   onMouseEnter={() => setOpenMenu(item.label)}
                   onMouseLeave={() => setOpenMenu(null)}
@@ -120,13 +122,18 @@ export function SiteHeader() {
                   </Link>
 
                   {openMenu === item.label ? (
-                    <div className="absolute left-0 top-full min-w-[260px] pt-2">
-                      <ul className="border-t-2 border-sage-600 bg-white py-2 shadow-xl shadow-charcoal/10">
+                    <div className="absolute left-0 top-full pt-3">
+                      <ul
+                        className={cn(
+                          "grid gap-0.5 rounded-2xl border border-charcoal/5 bg-white p-2 shadow-xl shadow-sage-700/10",
+                          item.columns === 2 ? "w-[520px] grid-cols-2" : "min-w-[270px]"
+                        )}
+                      >
                         {item.children.map((child) => (
                           <li key={child.href + child.label}>
                             <Link
                               href={child.href}
-                              className="block px-5 py-2.5 font-eyebrow text-[14px] text-charcoal-soft transition-colors hover:bg-cream-deep hover:text-sage-600"
+                              className="block rounded-xl px-4 py-2.5 text-[14px] font-medium text-charcoal-soft transition-colors hover:bg-cream-deep hover:text-sage-600"
                             >
                               {child.label}
                             </Link>
@@ -138,33 +145,41 @@ export function SiteHeader() {
                 </div>
               );
             })}
-
-            <Button href={bookHref} size="sm" className="ml-3" target="_blank" rel="noopener noreferrer">
-              Book a Session
-            </Button>
           </nav>
 
-          <button
-            type="button"
-            className="flex h-10 w-10 items-center justify-center text-charcoal lg:hidden"
-            onClick={() => setMobileOpen((prev) => !prev)}
-            aria-label={mobileOpen ? "Close menu" : "Open menu"}
-            aria-expanded={mobileOpen}
-          >
-            {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-          </button>
+          <div className="flex items-center gap-3">
+            <Button
+              href={siteConfig.contact.whatsappHref("Hi! I'd like to enquire about your classes.")}
+              target="_blank"
+              rel="noopener noreferrer"
+              arrow
+              size="md"
+              className="hidden sm:inline-flex"
+            >
+              Enquire Now
+            </Button>
+            <button
+              type="button"
+              className="flex h-11 w-11 items-center justify-center rounded-full bg-cream-deep text-sage-600 xl:hidden"
+              onClick={() => setMobileOpen((prev) => !prev)}
+              aria-label={mobileOpen ? "Close menu" : "Open menu"}
+              aria-expanded={mobileOpen}
+            >
+              {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </button>
+          </div>
         </Container>
 
         {mobileOpen ? (
-          <div className="max-h-[calc(100vh-76px)] overflow-y-auto border-t border-charcoal/8 bg-white lg:hidden">
+          <div className="max-h-[calc(100vh-110px)] overflow-y-auto border-t border-charcoal/5 bg-white xl:hidden">
             <Container className="flex flex-col py-3">
               {primaryNav.map((item) => {
                 if (!item.children) {
                   return (
                     <Link
-                      key={item.href}
+                      key={item.label}
                       href={item.href}
-                      className="border-b border-charcoal/5 px-1 py-3.5 font-eyebrow text-[15px] text-charcoal"
+                      className="border-b border-charcoal/5 px-1 py-3.5 text-[16px] font-medium text-sage-600"
                     >
                       {item.label}
                     </Link>
@@ -172,10 +187,10 @@ export function SiteHeader() {
                 }
 
                 return (
-                  <div key={item.href} className="border-b border-charcoal/5">
+                  <div key={item.label} className="border-b border-charcoal/5">
                     <button
                       type="button"
-                      className="flex w-full items-center justify-between px-1 py-3.5 font-eyebrow text-[15px] text-charcoal"
+                      className="flex w-full items-center justify-between px-1 py-3.5 text-[16px] font-medium text-sage-600"
                       onClick={() => setMobileSection((prev) => (prev === item.label ? null : item.label))}
                       aria-expanded={mobileSection === item.label}
                     >
@@ -185,12 +200,12 @@ export function SiteHeader() {
                       />
                     </button>
                     {mobileSection === item.label ? (
-                      <div className="mb-2 ml-2 flex flex-col border-l-2 border-sage-200 pl-3">
+                      <div className="mb-2 ml-2 flex flex-col border-l-2 border-terracotta-300 pl-3">
                         {item.children.map((child) => (
                           <Link
                             key={child.href + child.label}
                             href={child.href}
-                            className="py-2 text-[14px] text-charcoal-soft hover:text-sage-600"
+                            className="py-2 text-[14.5px] text-charcoal-soft hover:text-sage-600"
                           >
                             {child.label}
                           </Link>
@@ -201,8 +216,14 @@ export function SiteHeader() {
                 );
               })}
 
-              <Button href={bookHref} className="mt-4 w-full" target="_blank" rel="noopener noreferrer">
-                Book a Session
+              <Button
+                href={siteConfig.contact.whatsappHref("Hi! I'd like to enquire about your classes.")}
+                target="_blank"
+                rel="noopener noreferrer"
+                arrow
+                className="mt-4 w-full"
+              >
+                Enquire Now
               </Button>
             </Container>
           </div>

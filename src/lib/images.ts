@@ -8,7 +8,7 @@ const unsplash = (id: string, width = 1200, height = 900) =>
 
 export const homeHeroImage: SiteImage = {
   src: unsplash("photo-1544367567-0f2fcb009e0b", 1400, 1500),
-  alt: "Yoga student practicing a calm seated pose in a bright studio",
+  alt: "Silhouette of a yoga practitioner stretching against a sunset sky",
 };
 
 export const yogaStyleImages: Record<string, SiteImage> = {

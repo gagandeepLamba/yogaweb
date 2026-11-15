@@ -21,18 +21,12 @@ export default function ContactPage() {
     <>
       <PageHero title="Contact Us" />
 
-      <HomeContact
-        plain
-        heading="Have Any Questions"
-        subheading="Feel free to contact us through anywhere."
-        title="Let’s Talk — Ask Us Anything"
-        topic="Contact page enquiry"
-      />
+      <HomeContact plain topic="Contact page enquiry" />
 
       <section className="pb-4">
         <Container>
-          <div className="flex flex-col items-center gap-2 rounded-xl bg-cream-deep px-6 py-6 text-center sm:flex-row sm:justify-center sm:gap-8">
-            <Clock className="h-6 w-6 text-sage-600" />
+          <div className="flex flex-col items-center gap-2 rounded-2xl bg-cream-deep px-6 py-6 text-center sm:flex-row sm:justify-center sm:gap-8">
+            <Clock className="h-6 w-6 text-terracotta-500" />
             {hours.map((h) => (
               <p key={h.days} className="text-[15px] text-charcoal-soft">
                 <span className="font-medium text-charcoal">{h.days}:</span> {h.time}

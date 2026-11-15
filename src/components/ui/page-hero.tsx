@@ -1,17 +1,18 @@
 import Image from "next/image";
 import Link from "next/link";
+import { ChevronRight } from "lucide-react";
 import { Container } from "@/components/ui/container";
 import { cn } from "@/lib/utils";
 
 const bannerImage =
-  "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=1920&h=500&q=70";
+  "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=1920&h=560&q=75";
 
 export type Crumb = { label: string; href?: string };
 
 /**
- * Inner-page title banner: dark photo background, large centred white title and a
- * "Home / Page" breadcrumb. `eyebrow` and `description` are optional extras for pages
- * that have no direct counterpart in the design.
+ * Inner-page banner: photo background under a deep navy wash, centred white title and a
+ * "Home › Page" breadcrumb. `description` is an optional extra line for pages without a
+ * direct counterpart in the design.
  */
 export function PageHero({
   title,
@@ -30,20 +31,20 @@ export function PageHero({
   const trail: Crumb[] = [{ label: "Home", href: "/" }, ...(crumbs ?? []), { label: title }];
 
   return (
-    <section className={cn("relative overflow-hidden bg-[#141110] py-12 sm:py-16", className)}>
-      <Image src={bannerImage} alt="" fill priority sizes="100vw" className="object-cover opacity-[0.18] grayscale" />
-      <div className="absolute inset-0 bg-gradient-to-b from-black/30 to-black/60" />
+    <section className={cn("relative overflow-hidden bg-sage-700 py-16 sm:py-24", className)}>
+      <Image src={bannerImage} alt="" fill priority sizes="100vw" className="object-cover opacity-60" />
+      <div className="absolute inset-0 bg-sage-700/75" />
 
       <Container className="relative text-center">
-        <h1 className="mx-auto max-w-4xl font-display text-4xl text-balance text-white sm:text-5xl lg:text-[56px] lg:leading-tight">
+        <h1 className="mx-auto max-w-4xl font-display text-4xl text-balance text-white sm:text-5xl lg:text-[52px] lg:leading-tight">
           {title}
         </h1>
 
         <nav aria-label="Breadcrumb" className="mt-3">
-          <ol className="flex flex-wrap items-center justify-center gap-2 font-eyebrow text-[14px] text-white/80">
+          <ol className="flex flex-wrap items-center justify-center gap-1.5 text-[14px] text-white/80">
             {trail.map((crumb, i) => (
-              <li key={crumb.label + i} className="flex items-center gap-2">
-                {i > 0 ? <span aria-hidden="true">/</span> : null}
+              <li key={crumb.label + i} className="flex items-center gap-1.5">
+                {i > 0 ? <ChevronRight className="h-3.5 w-3.5" aria-hidden="true" /> : null}
                 {crumb.href ? (
                   <Link href={crumb.href} className="hover:text-white">
                     {crumb.label}

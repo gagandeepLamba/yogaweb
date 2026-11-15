@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { CalendarCheck, Users } from "lucide-react";
 import { PageHero } from "@/components/ui/page-hero";
 import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Button } from "@/components/ui/button";
+import { FeatureRows, InfoPair } from "@/components/ui/price-boxes";
+import { JoinBanner } from "@/components/home/join-banner";
 import { programs } from "@/data/programs";
 import { siteConfig } from "@/lib/site-config";
 
@@ -18,44 +21,61 @@ export default function WorkshopPage() {
     <>
       <PageHero title="Workshop" />
 
-      <section className="py-16 sm:py-20">
+      <section className="py-16 sm:py-24">
         <Container>
           <SectionHeading
-            eyebrow="Join Now"
+            eyebrow="Join now"
             title="Programs & Workshops"
-            description="Join our specialized retreats & workshops designed for deeper healing"
+            description="Join our specialised retreats and workshops, designed for deeper practice."
           />
 
-          <div className="mx-auto mt-10 grid max-w-[1192px] gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {programs.map((program) => (
-              <article key={program.title} className="group">
-                <div className="relative aspect-[4/3] overflow-hidden rounded-xl">
-                  <Image
-                    src={program.image.src}
-                    alt={program.image.alt}
-                    fill
-                    sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                </div>
-                <h2 className="mt-4 font-display text-xl text-charcoal">{program.title}</h2>
-                <p className="mt-1 font-eyebrow text-[13px] text-sage-600">{program.tag}</p>
-                <p className="mt-2 text-[15px] leading-relaxed text-charcoal-soft">{program.summary}</p>
-              </article>
-            ))}
-          </div>
-
-          <div className="mt-12 text-center">
-            <Button
-              href={siteConfig.contact.whatsappHref("Hi! I'd like to join a program or workshop.")}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Join a Program
-            </Button>
+          <div className="mt-12 grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
+            {programs.map((program) => {
+              const [type, length] = program.tag.split("·").map((part) => part.trim());
+              return (
+                <article
+                  key={program.title}
+                  className="flex flex-col overflow-hidden rounded-3xl border border-charcoal/5 bg-white shadow-md shadow-sage-900/5"
+                >
+                  <div className="relative aspect-[16/10]">
+                    <Image
+                      src={program.image.src}
+                      alt={program.image.alt}
+                      fill
+                      sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                      className="object-cover"
+                    />
+                  </div>
+                  <div className="flex flex-1 flex-col p-6">
+                    <h2 className="font-display text-xl font-semibold text-sage-600">{program.title}</h2>
+                    <p className="mt-3 flex-1 text-[15px] leading-relaxed text-charcoal-soft">{program.summary}</p>
+                    <div className="mt-5">
+                      <InfoPair items={[{ label: "Format", value: type }, { label: "Length", value: length ?? "Flexible" }]} />
+                    </div>
+                    <FeatureRows
+                      rows={[
+                        { icon: Users, text: "Small groups, all levels" },
+                        { icon: CalendarCheck, text: "Dates announced monthly" },
+                      ]}
+                    />
+                    <Button
+                      href={siteConfig.contact.whatsappHref(`Hi! I'd like to join: ${program.title}`)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      arrow
+                      className="mt-5 w-full"
+                    >
+                      Enquire Now
+                    </Button>
+                  </div>
+                </article>
+              );
+            })}
           </div>
         </Container>
       </section>
+
+      <JoinBanner />
     </>
   );
 }

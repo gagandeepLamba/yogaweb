@@ -96,3 +96,24 @@ export function SectionEdge({
     </svg>
   );
 }
+
+/** Thin gold rule with a small lotus in the middle, used under section headings. */
+export function GoldOrnament({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 180 24"
+      width="180"
+      height="24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      className={cn("block text-gold-500", className)}
+      aria-hidden="true"
+    >
+      <path d="M2 12h66M112 12h66" />
+      <path d="M72 12l4-3 4 3-4 3z M104 12l4-3 4 3-4 3z" fill="currentColor" stroke="none" />
+      <path d="M90 4c-3 4-3 9 0 13 3-4 3-9 0-13Z M90 17c-5-1-8-4-9-8 4 0 7 2 9 8Z M90 17c5-1 8-4 9-8-4 0-7 2-9 8Z" />
+    </svg>
+  );
+}
